@@ -36,10 +36,10 @@ public:
     uint8_t second;
     uint8_t satellites;  // number of satellites
     float pdop;          // Position Dilution of Precision
-    float hdop;          // Horizontal Dilution of Percision (Dikkat: int8 sınırlıdır)
+    float hdop;          // Horizontal Dilution of Percision 
     float vdop;          // Vertical Dilution of Percision
     float speed;         // Speed in kilometer per hour
-    bool fix;            // Konumun geçerli olup olmadığı (Ekledim, kontrol için şart)
+    bool fix;            // Konumun geçerli olup olmadığı
   };
 
   GNSS();

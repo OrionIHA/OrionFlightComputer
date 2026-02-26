@@ -54,6 +54,14 @@ void FlightControl::begin() {
     m_flightState = DemandProcessor::FlightState::FAULTED;
   }
 
+  mag.begin();
+  magData = mag.getData();
+
+  // kalibrasyonlar hatalıysa uçuşa izin verme
+  if !(imu.calibrated() && imu.isMagCalibrated()) {
+    m_flightState = DemandProcessor::FlightState::FAULTED;
+  }
+
   if (!config.begin()) {
     Serial.println("Config not ok! rebooting...");
     delay(3000);
@@ -124,8 +132,11 @@ void FlightControl::operate() {
   baro.operate();
   baroData = baro.getData();
 
+  mag.readAllDatas();
+  magData = mag.getData();
+
   rc.process(&m_flightState, &m_lastFlightState, config.getRates(), config.getMaxAngles());
-  
+
   checkStateChange();
   batteryMonitor.operate();
 

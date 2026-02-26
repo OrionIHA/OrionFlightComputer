@@ -34,7 +34,7 @@
 #include "Config.hpp"
 #include "SBus.hpp"
 #include "Configurator.hpp"
-#include "FileSystem.hpp"
+#include "lsm303agr.hpp"
 #include "ModelTypes.hpp"
 
 
@@ -48,7 +48,7 @@ public:
   void operate();
   void begin();
 
-private:
+protected:
   //Constants
   static constexpr int32_t ACRO_TRAINER_RECOVERY_RATE = static_cast<int32_t>(Config::ACRO_TRAINER_LEVEL_RATE * 100.0f);
 
@@ -61,6 +61,7 @@ private:
   IMU::ImuData* imuData;
   ModelBase* myModel;
   BARO::BaroData baroData;
+  LSM303AGR::SensorData *magData;
 
   //Methods
   void modelConfig();
@@ -93,5 +94,6 @@ private:
   PIDF altRatePIDF = PIDF();  // İç Döngü (Velocity -> Pitch)
   IMU imu = IMU();
   BARO baro = BARO();
+  LSM303AGR mag = LSM303AGR();
   Configurator config;
 };

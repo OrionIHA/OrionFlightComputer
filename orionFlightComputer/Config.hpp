@@ -117,11 +117,17 @@ public:
 
   // Barometer data output rate
   static constexpr uint16_t BME_REFRESH_RATE = 100;  // 100Hz
+  
+  // Duration of magnetometer calibration
+  static constexpr uint32_t MAG_CALIB_DURATION = 20000; // ms
 
   // GNSS configuration parameters
   static constexpr uint32_t GNSS_BAUD_RATE = 9600;
   static constexpr uint8_t GNSS_RX_PIN = 18;
-  static constexpr uint8_t GNSS_TX_PIN = 17;  
+  static constexpr uint8_t GNSS_TX_PIN = 17;
+
+  // HIL Test configuration parameters
+  static constexpr bool HIL_TEST_ENABLE = false;    // default: false
 
   //Debug constants that will allow debug data to be compiled in
   static constexpr bool DEBUG_SBUS = false;
@@ -130,7 +136,9 @@ public:
   static constexpr bool DEBUG_BATTERY_MONITOR = false;
   static constexpr bool DEBUG_MADGWICK = false;
   static constexpr bool DEBUG_GYRO_CALIBRATION = false;
+  static constexpr bool DEBUG_MAG_CALIB = false;
   static constexpr bool DEBUG_CONFIGURATOR = false;
+  static constexpr bool DEBUG_LSM303AGR = true;
   static constexpr bool DEBUG_LSM6DSL = false;
   static constexpr bool DEBUG_BME280 = false;
   static constexpr bool DEBUG_GNSS = false;
@@ -153,7 +161,7 @@ public:
   static constexpr HardwareSerial* const SBUS_UART = &Serial0;
 
   //OrionFlightComputer build
-  static constexpr char SOFTWARE_VERSION[] = "V0.1";
+  static constexpr char SOFTWARE_VERSION[] = "V0.3";
 
   //Used to compile in/out features of different model categories
   //Note: if you add more model types make sure you add to these next 2 lines.

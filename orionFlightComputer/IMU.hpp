@@ -22,6 +22,7 @@
 #include <Arduino.h>
 #include "Utilities.hpp"
 #include "Lsm6dsl.hpp"
+#include "lsm303agr.hpp" // YENİ: Manyetometre/İvmeölçer
 #include "Config.hpp"
 #include <inttypes.h>
 #include "DemandProcessor.hpp"
@@ -29,14 +30,19 @@
 class IMU : public Utilities {
 public:
   struct ImuData {
-    // İsim değişikliği burada yapıldı:
-    LSM6DSL::RawImuData imuRaw;
+    LSM6DSL::RawImuData imuRaw; // Birleştirilmiş ivme + ham gyro verisi
+
+    // Manyetometre verileri (Gelecekte kullanım için hazır)
+    float magX;
+    float magY;
+    float magZ;
 
     float roll;
     float pitch;
     float yaw;
     float timeDelta;
     bool calibrated;
+    bool magCalibrated;
     bool fault;
   };
 
@@ -46,8 +52,11 @@ public:
   IMU(){};
   void begin();
   void operate(const float tdelta, const DemandProcessor::FlightState* const flightState);
-  void Madgwick6DOF(const DemandProcessor::FlightState* const flightState);
+  void Madgwick9DOF(const DemandProcessor::FlightState* const flightState);
+  
   bool calibrateGyro();
+  void calibrateMagnetometer();
+  bool isMagCalibrated();
   void setMadgwickWeighting(float weight);
   bool calibrated();
   bool isFaulted();
@@ -71,12 +80,22 @@ private:
   uint32_t m_calCount = 0U;
   bool m_i2cReadOk = true;
   uint64_t m_updateTime = 0U;
+  uint32_t m_lastMagUpdate = 0U;
 
   float m_q0 = 1.0f;
   float m_q1 = 0.0f;
   float m_q2 = 0.0f;
   float m_q3 = 0.0f;
 
+  float m_magOffsetX = 0.0f;
+  float m_magOffsetY = 0.0f;
+  float m_magOffsetZ = 0.0f;
+  
+  float m_magScaleX = 1.0f;
+  float m_magScaleY = 1.0f;
+  float m_magScaleZ = 1.0f;
+
   //Objects
   LSM6DSL lsm6dsl;
+  LSM303AGR lsm303; // İkinci sensör
 };

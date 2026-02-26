@@ -215,7 +215,7 @@ bool IMU::calibrateGyro() {
   return m_imu.calibrated;
 }
 
-void IMU::calibrateMagnetometer(uint32_t calibrationTimeMs) {
+bool IMU::calibrateMagnetometer() {
   // İşlem başlarken güvenliği devreye al (uçuşa izin verme)
   m_imu.magCalibrated = false;
 
@@ -232,7 +232,7 @@ void IMU::calibrateMagnetometer(uint32_t calibrationTimeMs) {
   uint32_t startTime = millis();
 
   // Belirlenen süre boyunca sensörü oku ve Max/Min değerleri bul
-  while (millis() - startTime < calibrationTimeMs) {
+  while (millis() - startTime < Config::MAG_CALIB_DURATION) {
     lsm303.readMagnetometer();
     LSM303AGR::SensorData* data = lsm303.getData();
 
@@ -305,6 +305,8 @@ void IMU::calibrateMagnetometer(uint32_t calibrationTimeMs) {
       Serial.println(chordZ);
     }
   }
+
+  return m_imu.magCalibrated;
 }
 
 bool IMU::calibrated() {

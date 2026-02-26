@@ -58,7 +58,7 @@ void FlightControl::begin() {
   magData = mag.getData();
 
   // kalibrasyonlar hatalıysa uçuşa izin verme
-  if !(imu.calibrated() && imu.isMagCalibrated()) {
+  if (!(imu.calibrated() && imu.isMagCalibrated())) {
     m_flightState = DemandProcessor::FlightState::FAULTED;
   }
 
@@ -259,7 +259,7 @@ void FlightControl::altitudeHold() {
 * @brief  Allows the gyro to calibrate and Madgwick filter to gain position.
 */
 void FlightControl::doCalibrateState() {
-  if (imu.calibrateGyro()) {
+  if (imu.calibrateGyro() && imu.calibrateMagnetometer()) {
     //Complete so set madgwick to flight weighting...
     imu.setMadgwickWeighting(IMU::MADGWICK_FLIGHT_WEIGHTING);
     //Determine next state to go to...

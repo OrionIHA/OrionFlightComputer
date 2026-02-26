@@ -24,8 +24,8 @@ LSM303AGR::LSM303AGR() {
 }
 
 bool LSM303AGR::begin() {
-  Wire.begin(); 
-  
+  Wire.begin();
+
   if (!checkConnection()) {
     return false;
   }
@@ -33,13 +33,13 @@ bool LSM303AGR::begin() {
   // --- İVMEÖLÇER (ACCEL) AYARI: 1.344 kHz ---
   // CTRL_REG1_A (0x20): ODR=1.344kHz (1001), Normal Mode (0), XYZ Enabled (111) -> 0x97
   writeRegister(ACCEL_ADDRESS, REG_ACC_CTRL1, 0x97);
-  
+
   // CTRL_REG4_A (0x23): BDU enabled, FS = +/-4g, HR enabled -> 0x98 (Eski ayarımız kalıyor)
   writeRegister(ACCEL_ADDRESS, REG_ACC_CTRL4, 0x98);
 
   // --- MANYETOMETRE (MAG) AYARI: 100 Hz ---
-  writeRegister(MAG_ADDRESS, REG_ACC_CTRL1 + 0x40, 0x00); 
-  
+  writeRegister(MAG_ADDRESS, REG_ACC_CTRL1 + 0x40, 0x00);
+
   // CFG_REG_A_M (0x60): ODR=100Hz (11), Mode=Continuous (00) -> 0x0C
   writeRegister(MAG_ADDRESS, REG_MAG_CFG_A, 0x0C);
 
@@ -106,13 +106,13 @@ void LSM303AGR::readAllDatas() {
   if constexpr (Config::DEBUG_LSM303AGR) {
     if (millis() - lastReadTime > 100) {
       lastReadTime = millis();
-      Serial.print("\taccel_X:\t"); Serial.print(m_data.accelX);
+      Serial.print("\taccel_X:\t"); Serial.print(m_data.accelX); 
       Serial.print("\taccel_Y:\t"); Serial.print(m_data.accelY);
       Serial.print("\taccel_Z:\t"); Serial.println(m_data.accelZ);
 
-      Serial.print("\tmag_X:\t");   Serial.print(m_data.magX);
-      Serial.print("\tmag_Y:\t");   Serial.print(m_data.magY);
-      Serial.print("\tmag_Z:\t");   Serial.println(m_data.magZ);
+      Serial.print("\tmag_X:\t\t"); Serial.print(m_data.magX);
+      Serial.print("\tmag_Y:\t\t"); Serial.print(m_data.magY);
+      Serial.print("\tmag_Z:\t\t"); Serial.println(m_data.magZ);
     }
   }
 }

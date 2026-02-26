@@ -55,7 +55,7 @@ public:
   void Madgwick9DOF(const DemandProcessor::FlightState* const flightState);
   
   bool calibrateGyro();
-  void calibrateMagnetometer();
+  bool calibrateMagnetometer();
   bool isMagCalibrated();
   void setMadgwickWeighting(float weight);
   bool calibrated();

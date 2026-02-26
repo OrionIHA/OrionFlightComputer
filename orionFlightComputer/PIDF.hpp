@@ -24,8 +24,6 @@
 #include <inttypes.h>
 
 
-
-
 class PIDF {
 public:
   struct Gains {

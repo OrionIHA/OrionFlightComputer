@@ -161,7 +161,7 @@ public:
   static constexpr HardwareSerial* const SBUS_UART = &Serial0;
 
   //OrionFlightComputer build
-  static constexpr char SOFTWARE_VERSION[] = "V0.3";
+  static constexpr char SOFTWARE_VERSION[] = "V0.3.1";
 
   //Used to compile in/out features of different model categories
   //Note: if you add more model types make sure you add to these next 2 lines.
